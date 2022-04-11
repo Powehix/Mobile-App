@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mobile_app/mysql.dart';
 import 'package:mobile_app/pages/qr_scan_page.dart';
 import 'package:mobile_app/pages/start_inventory_page.dart';
 import 'package:mobile_app/widgets/button_widget.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:mysql1/mysql1.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,36 +48,16 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   String _scanQR = 'Unknown';
-  var db = new MySQL();
-  var desc = 'aaa';
-
-  void _getObject() {
-    db.getConnection().then((conn) {
-      String sql = 'select description from object where id_object = 44;';
-      conn.query(sql).then((results) {
-        for (var row in results) {
-          setState(() {
-            desc = row[0];
-          });
-        }
-      });
-    });
-  }
 
   Future<void> scanQR() async {
     String scanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       scanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.QR);
-      print(scanRes);
+          '#404ccf', 'Cancel', true, ScanMode.QR);
     } on PlatformException {
       scanRes = 'Failed to get platform version.';
     }
 
-    // If the widget was removed from the tree while the asynchronous platform
-    // message was in flight, we want to discard the reply rather than calling
-    // setState to update our non-existent appearance.
     if (!mounted) return;
 
     setState(() {
@@ -87,7 +65,8 @@ class _MainPageState extends State<MainPage> {
     });
 
     Navigator.push(context, MaterialPageRoute(
-        builder: (context) => QRScanPage(result: _scanQR)));
+        builder: (context) => QRScanPage(result: _scanQR)
+    ));
   }
 
   @override
@@ -140,11 +119,6 @@ class _MainPageState extends State<MainPage> {
               builder: (BuildContext context) => const QRScanPage(),
             )),*/
           ),
-          /*Text(
-            desc,
-            style: TextStyle(fontSize: 26),
-          ),
-          ButtonWidget(text: 'Get object', onClicked: () => _getObject())*/
         ],
       ),
     ),

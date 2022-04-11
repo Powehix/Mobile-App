@@ -1,53 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:mobile_app/mysql.dart';
-import 'package:mobile_app/widgets/button_widget.dart';
 import 'package:mysql1/mysql1.dart';
 
-import '../main.dart';
-
-class QRScanPage extends StatelessWidget {
+class QRScanPage extends StatefulWidget {
   final String result;
   const QRScanPage({Key? key, required this.result}) : super(key: key);
 
-  //var db = new MySQL();
-
   @override
-  Widget build(BuildContext context) => Scaffold(
-    backgroundColor: const Color(0xFF404ccf),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            result,
-            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
-        ],
-      ),
-    )
-  );
-
-  /*@override
-  _QRScanPageState createState() => _QRScanPageState();*/
+  _QRScanPageState createState() => _QRScanPageState();
 }
 
-/*class _QRScanPageState extends State<QRScanPage> {
-  var db = new MySQL();
-  var description = '';
+class _QRScanPageState extends State<QRScanPage> {
+  var db = MySQL();
+  var id = 'Unknown';
+  var description = 'Unknown';
+  var room = 'Unknown';
+  var price = 'Unknown';
+  var date = 'Unknown';
 
   void _getObject() {
     db.getConnection().then((conn) {
-      String sql = 'select description from object where id_object = 44;';
+      String sql = 'select * from object where id_object = ${widget.result};';
       conn.query(sql).then((results) {
         for (var row in results) {
           setState(() {
-            description = row[0];
+            date = row[0].toString();
+            date = date.substring(0, 10);
+            description = row[1].toString();
+            price = row[2].toString();
+            id = row[3].toString();
+            room = row[4].toString();
+            sql = 'select location_of_room from room where id_room = $room';
+            conn.query(sql).then((results) {
+              for (var row in results) {
+                setState(() {
+                  room = row[0].toString();
+                });
+              }
+            });
           });
         }
       });
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getObject();
   }
 
   @override
@@ -58,16 +58,28 @@ class QRScanPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              //result,
-              description,
+              'Object #$id',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-            *//*ButtonWidget(
-              text: 'Objects',
-              onClicked: () => connectDatabase(),
-          )*//*
+            const SizedBox(height: 16),
+            Text(
+              'Description: $description',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            Text(
+              'Room: $room',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            Text(
+              'Price: $price',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            Text(
+              'Date: $date',
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+            )
           ],
         ),
       )
   );
-}*/
+}
