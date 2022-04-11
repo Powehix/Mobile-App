@@ -16,17 +16,11 @@ class _ErrorPageState extends State<ErrorPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
+          children: const [
+            Text(
               'Error! Object not found.',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
             ),
-            /*ButtonWidget(
-              text: 'Return',
-              onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const MainPage(),
-              )),
-            ),*/
         ]),
       )
   );

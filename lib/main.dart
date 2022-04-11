@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:mobile_app/pages/qr_scan_page.dart';
 import 'package:mobile_app/pages/start_inventory_page.dart';
 import 'package:mobile_app/widgets/button_widget.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,32 +44,6 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  String _scanQR = 'Unknown';
-
-  Future<void> scanQR() async {
-    String scanRes;
-    try {
-      scanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#404ccf', 'Cancel', true, ScanMode.QR);
-    } on PlatformException {
-      scanRes = 'Failed to get platform version.';
-    }
-
-    if (!mounted) return;
-
-    if (scanRes != "-1") {
-      setState(() {
-        _scanQR = scanRes;
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => QRScanPage(result: _scanQR)
-        ));
-      });
-    } else {
-      Navigator.push(context, MaterialPageRoute(
-          builder: (context) => const MainPage()
-      ));
-    }
-  }
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -117,12 +90,10 @@ class _MainPageState extends State<MainPage> {
           const SizedBox(height: 16),
           ButtonWidget(
             text: 'Scan QR code',
-            onClicked: () => scanQR(),
-            /*onClicked: () => Navigator.of(context).push(MaterialPageRoute(
+            onClicked: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => const QRScanPage(),
-            )),*/
-          ),
-        ],
+            ))
+          )],
       ),
     ),
   );
