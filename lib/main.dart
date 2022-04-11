@@ -30,15 +30,13 @@ class MyApp extends StatelessWidget {
       hintColor: Colors.black,
     ),
 
-    home: const MainPage(title: title),
+    home: const MainPage(),
   );
 }
 
 class MainPage extends StatefulWidget {
-  final String title;
 
   const MainPage({
-    required this.title,
     Key? key
   }) : super(key: key);
 
@@ -60,13 +58,18 @@ class _MainPageState extends State<MainPage> {
 
     if (!mounted) return;
 
-    setState(() {
-      _scanQR = scanRes;
-    });
-
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => QRScanPage(result: _scanQR)
-    ));
+    if (scanRes != "-1") {
+      setState(() {
+        _scanQR = scanRes;
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => QRScanPage(result: _scanQR)
+        ));
+      });
+    } else {
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => const MainPage()
+      ));
+    }
   }
 
   @override

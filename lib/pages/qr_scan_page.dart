@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:mobile_app/mysql.dart';
-import 'package:mysql1/mysql1.dart';
+
+import 'error_page.dart';
 
 class QRScanPage extends StatefulWidget {
   final String result;
@@ -12,11 +15,11 @@ class QRScanPage extends StatefulWidget {
 
 class _QRScanPageState extends State<QRScanPage> {
   var db = MySQL();
-  var id = 'Unknown';
-  var description = 'Unknown';
-  var room = 'Unknown';
-  var price = 'Unknown';
-  var date = 'Unknown';
+  var id = '';
+  var description = '';
+  var room = '';
+  var price = '';
+  var date = '';
 
   void _getObject() {
     db.getConnection().then((conn) {
@@ -48,7 +51,12 @@ class _QRScanPageState extends State<QRScanPage> {
   void initState() {
     super.initState();
     _getObject();
+    if (id == '') {
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => const ErrorPage()));
+    }
   }
+
 
   @override
   Widget build(BuildContext context) => Scaffold(
