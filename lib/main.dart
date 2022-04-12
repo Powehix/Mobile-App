@@ -51,11 +51,6 @@ class _MainPageState extends State<MainPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          /*Image.asset(
-            'assets/images/inventory_illustration.jpg',
-            width: 400,
-            height: 330,
-          ),*/
           Image.asset(
             'assets/images/inventory_illustration.png',
             width: 400,
