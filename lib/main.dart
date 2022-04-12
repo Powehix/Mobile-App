@@ -51,8 +51,13 @@ class _MainPageState extends State<MainPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
+          /*Image.asset(
             'assets/images/inventory_illustration.jpg',
+            width: 400,
+            height: 330,
+          ),*/
+          Image.asset(
+            'assets/images/inventory_illustration.png',
             width: 400,
             height: 330,
           ),
@@ -73,7 +78,7 @@ class _MainPageState extends State<MainPage> {
           ButtonWidget(
             text: 'Start Inventory',
             onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => StartInventoryPage(),
+              builder: (BuildContext context) => const StartInventoryPage(),
             )),
             backgroundColor: const Color(0xFF404ccf),
             textColor: Colors.white,
