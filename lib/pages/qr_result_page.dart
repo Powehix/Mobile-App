@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/mysql.dart';
+import 'package:mobile_app/pages/qr_scan_page.dart';
+import 'package:mobile_app/widgets/button_widget.dart';
+
+import '../main.dart';
 
 class QRResultPage extends StatefulWidget {
   final String result;
@@ -56,6 +60,11 @@ class _QRResultPageState extends State<QRResultPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Image.asset(
+              'assets/images/box_illustration.png',
+              width: 150,
+              height: 250,
+            ),
             Text(
               'Object #$id',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
@@ -63,20 +72,40 @@ class _QRResultPageState extends State<QRResultPage> {
             const SizedBox(height: 16),
             Text(
               'Description: $description',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
             ),
             Text(
               'Room: $room',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
             ),
             Text(
               'Price: $price',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
             ),
             Text(
               'Date: $date',
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
-            )
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
+            ),
+            const SizedBox(height: 56),
+            ButtonWidget(
+              text: 'Scan again',
+              onClicked: () => Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => const QRScanPage()
+              )),
+              backgroundColor: Colors.white,
+              textColor: const Color(0xFF404ccf),
+              padding: const EdgeInsets.symmetric(horizontal: 76, vertical: 16),
+            ),
+            const SizedBox(height: 16),
+            ButtonWidget(
+              text: 'Return home',
+              onClicked: () => Navigator.push(context, MaterialPageRoute(
+                  builder: (context) => const MainPage()
+              )),
+              backgroundColor: const Color(0xFF7480fd),
+              textColor: Colors.white,
+              padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 16),
+            ),
           ],
         ),
       )

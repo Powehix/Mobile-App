@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
     theme: ThemeData(
       fontFamily: 'Inter',
       scaffoldBackgroundColor: Colors.white,
-      hintColor: Colors.black,
+      //hintColor: Colors.black,
     ),
 
     home: const MainPage(),
@@ -56,44 +56,49 @@ class _MainPageState extends State<MainPage> {
             width: 400,
             height: 330,
           ),
-          Container(
-            height: 40.00,
-            child: const TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "Welcome",
-              ),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-            ),
+          const Text(
+            'Welcome',
+            style: TextStyle(fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
           ),
-          Container(
-            width: 300.00,
-            height: 50.00,
-            child: const TextField(
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: "This is an inventory management application. Please select what you want to do.",
+          const SizedBox(height: 8),
+          const SizedBox(
+            width: 300,
+              child: Text(
+                'This is an inventory management application. Please select what you want to do.',
+                style: TextStyle(fontSize: 15, color: Color(0xFF878787), fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
-              maxLines: 5,
-              style: TextStyle(fontSize: 14, color: Colors.black),
-            ),
           ),
-          const SizedBox(height: 32),
+          const SizedBox(height: 56),
           ButtonWidget(
-            text: 'Start inventory',
+            text: 'Start Inventory',
             onClicked: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => StartInventoryPage(),
             )),
+            backgroundColor: const Color(0xFF404ccf),
+            textColor: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 72, vertical: 16),
           ),
           const SizedBox(height: 16),
           ButtonWidget(
             text: 'Scan QR code',
             onClicked: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => const QRScanPage(),
-            ))
-          )],
+            )),
+            backgroundColor: const Color(0xFFc9f3fe),
+            textColor: const Color(0xFF406fcf),
+            padding: const EdgeInsets.symmetric(horizontal: 76, vertical: 16),
+          ),
+          const SizedBox(height: 12),
+          const SizedBox(
+            width: 300,
+            child: Text(
+              'Please note that the application requires a connection to a local server.',
+              style: TextStyle(fontSize: 12, color: Color(0xFF878787), fontWeight: FontWeight.w600),
+              textAlign: TextAlign.center,
+            ),
+          )
+        ],
       ),
     ),
   );
