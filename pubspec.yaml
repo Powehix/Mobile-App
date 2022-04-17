@@ -40,6 +40,8 @@ dependencies:
   # MySQL connection
   mysql1: ^0.19.2
 
+  vibration: ^1.7.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

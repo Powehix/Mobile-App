@@ -86,7 +86,7 @@ class _QRResultPageState extends State<QRResultPage> {
               'Date: $date',
               style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Colors.white),
             ),
-            const SizedBox(height: 56),
+            const SizedBox(height: 78),
             ButtonWidget(
               text: 'Scan again',
               onClicked: () => Navigator.push(context, MaterialPageRoute(
@@ -94,7 +94,7 @@ class _QRResultPageState extends State<QRResultPage> {
               )),
               backgroundColor: Colors.white,
               textColor: const Color(0xFF404ccf),
-              padding: const EdgeInsets.symmetric(horizontal: 76, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 84, vertical: 16),
             ),
             const SizedBox(height: 16),
             ButtonWidget(
@@ -104,7 +104,7 @@ class _QRResultPageState extends State<QRResultPage> {
               )),
               backgroundColor: const Color(0xFF7480fd),
               textColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 70, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 78, vertical: 16),
             ),
           ],
         ),

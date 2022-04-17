@@ -1,3 +1,5 @@
+// @dart=2.9
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mobile_app/pages/qr_scan_page.dart';
@@ -17,7 +19,7 @@ void main() {
 class MyApp extends StatelessWidget {
   static const String title = 'Inventory Management';
 
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) => MaterialApp(
@@ -36,7 +38,7 @@ class MyApp extends StatelessWidget {
 class MainPage extends StatefulWidget {
 
   const MainPage({
-    Key? key
+    Key key
   }) : super(key: key);
 
   @override
@@ -71,7 +73,7 @@ class _MainPageState extends State<MainPage> {
           ),
           const SizedBox(height: 56),
           ButtonWidget(
-            text: 'Start Inventory',
+            text: 'Start inventory',
             onClicked: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => const StartInventoryPage(),
             )),

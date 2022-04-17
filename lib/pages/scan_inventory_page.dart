@@ -3,19 +3,19 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:mobile_app/pages/qr_result_page.dart';
-import 'package:vibration/vibration.dart';
 
 import '../main.dart';
 import 'error_page.dart';
 
-class QRScanPage extends StatefulWidget {
-  const QRScanPage({Key? key}) : super(key: key);
+class ScanInventoryPage extends StatefulWidget {
+  final int counter;
+  const ScanInventoryPage({Key? key, required this.counter}) : super(key: key);
 
   @override
-  _QRScanPageState createState() => _QRScanPageState();
+  _ScanInventoryPageState createState() => _ScanInventoryPageState();
 }
 
-class _QRScanPageState extends State<QRScanPage> {
+class _ScanInventoryPageState extends State<ScanInventoryPage> {
   late String scanResult;
 
   Future<void> scanQR() async {
@@ -30,10 +30,6 @@ class _QRScanPageState extends State<QRScanPage> {
     }
 
     if (!mounted) return;
-
-    if (await Vibration.hasVibrator()) {
-      Vibration.vibrate(duration: 100);
-    }
 
     if (int.tryParse(scanResult) == null) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {

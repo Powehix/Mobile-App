@@ -19,7 +19,7 @@ class _StartInventoryPageState extends State<StartInventoryPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/process_illustration.jpg',
+            'assets/images/process_illustration.png',
             width: 300,
             height: 230,
           ),
@@ -35,7 +35,7 @@ class _StartInventoryPageState extends State<StartInventoryPage> {
           ButtonWidget(
               text: 'Continue',
               onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const ProcessInventoryPage(),
+                builder: (BuildContext context) => const ProcessInventoryPage(result: '62', counter: 0,),
               )),
               backgroundColor: const Color(0xFF404ccf),
               textColor: Colors.white,
