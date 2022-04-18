@@ -29,5 +29,8 @@ class ButtonWidget extends StatelessWidget {
     textColor: textColor,
     onPressed: onClicked,
     elevation: 0,
+    hoverElevation: 0,
+    focusElevation: 0,
+    highlightElevation: 0,
   );
 }

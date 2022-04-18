@@ -47,13 +47,13 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            'Room $locationOfRoom',
-            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.black),
+            'Room: $locationOfRoom',
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black),
           ),
           const SizedBox(height: 16),
           Text(
             '${widget.counter}/$numberOfObjects',
-            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF404ccf)),
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF2899f3)),
           ),
           const SizedBox(height: 56),
           ButtonWidget(
@@ -68,11 +68,30 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
           const SizedBox(height: 16),
           ButtonWidget(
             text: 'Stop inventory',
-            onClicked: () => Navigator.of(context).push(MaterialPageRoute(
+            /*onClicked: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (BuildContext context) => const MainPage(),
-            )),
-            backgroundColor: const Color(0xffe7e9fd),
-            textColor: const Color(0xFF404ccf),
+            )),*/
+            onClicked: () => showDialog(
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  //title: const Text('Title'),
+                  content: const Text('Are you sure you want stop inventory?'),
+                  actions: <Widget> [
+                    TextButton(
+                        onPressed: () => Navigator.pop(context, 'No'),
+                        child: const Text('No')
+                    ),
+                    TextButton(
+                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                            builder: (BuildContext context) => const MainPage()
+                        )),
+                        child: const Text('Yes')
+                    ),
+                  ],
+                )
+            ),
+            backgroundColor: const Color(0xFF2899f3),
+            textColor: Colors.white,
             padding: const EdgeInsets.symmetric(horizontal: 72, vertical: 16),
           ),
         ],
