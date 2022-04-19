@@ -33,6 +33,22 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
     });
   }
 
+  void _stopInventory() {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime.utc(now.year, now.month, now.day);
+
+    db.getConnection().then((conn) async {
+      var res = await conn.query('insert into inventory (date, result, id_room) values (?, ?, ?)',
+          [date, 'Unsuccessful', widget.result]);
+      print('Inserted row id_inventory=${res.insertId}');
+      await conn.close();
+    });
+
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (BuildContext context) => const MainPage()
+    ));
+  }
+
   @override
   void initState() {
     super.initState();
@@ -68,24 +84,19 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
           const SizedBox(height: 16),
           ButtonWidget(
             text: 'Stop inventory',
-            /*onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const MainPage(),
-            )),*/
             onClicked: () => showDialog(
                 context: context,
                 builder: (BuildContext context) => AlertDialog(
                   //title: const Text('Title'),
-                  content: const Text('Are you sure you want stop inventory?'),
+                  content: const Text('Are you sure you want to stop the inventory?\n\nNote: pressing "Yes" saves an inventory record!'),
                   actions: <Widget> [
                     TextButton(
                         onPressed: () => Navigator.pop(context, 'No'),
                         child: const Text('No')
                     ),
                     TextButton(
-                        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                            builder: (BuildContext context) => const MainPage()
-                        )),
-                        child: const Text('Yes')
+                        onPressed: () => _stopInventory(),
+                        child: const Text('Yes'),
                     ),
                   ],
                 )
