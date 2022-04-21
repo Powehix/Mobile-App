@@ -23,20 +23,24 @@ class ScanInventoryPage extends StatefulWidget {
 }
 
 class _ScanInventoryPageState extends State<ScanInventoryPage> {
-  var db = MySQL();
-  var roomID = 'Unknown';
-  late int numberOfObjects;
   late String scanResult;
+  var db = MySQL();
+  late int numberOfObjects;
+  late int counterUpdate;
+  //String scanResult = 'Unknown';
+  //late int roomID;
+  var roomID = 0;
 
   Future<void> scanQR() async {
+    String scanQR;
     try {
-      scanResult = await FlutterBarcodeScanner.scanBarcode(
+      scanQR = await FlutterBarcodeScanner.scanBarcode(
           '#404ccf',
           'Cancel',
           true,
           ScanMode.QR);
     } on PlatformException {
-      scanResult = 'Failed to get platform version.';
+      scanQR = 'Failed to get platform version.';
     }
 
     if (!mounted) return;
@@ -44,6 +48,10 @@ class _ScanInventoryPageState extends State<ScanInventoryPage> {
     if (await Vibration.hasVibrator()) {
       Vibration.vibrate(duration: 100);
     }
+
+    setState(() {
+      scanResult = scanQR;
+    });
 
     if (int.tryParse(scanResult) == null) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
@@ -56,16 +64,16 @@ class _ScanInventoryPageState extends State<ScanInventoryPage> {
           builder: (context) => ProcessInventoryPage(room: widget.room, counter: widget.counter)
       ));
     } else {
-      _getRoomID();
+      await _getRoomID();
       if (roomID == widget.room) {
         _countObjects();
-        scanQR();
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => ProcessInventoryPage(room: widget.room, counter: counterUpdate)
+        ));
       } else {
-        SchedulerBinding.instance?.addPostFrameCallback((_) {
-          Navigator.push(context, MaterialPageRoute(
-              builder: (context) => const ErrorIncorrectPage()
-          ));
-        });
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => const ErrorIncorrectPage()
+        ));
       }
     }
   }
@@ -83,28 +91,29 @@ class _ScanInventoryPageState extends State<ScanInventoryPage> {
     });
   }
 
-  void _getRoomID() {
-    db.getConnection().then((conn) {
-      String sql = 'select id_room from object where id_object = $scanResult;';
-      conn.query(sql).then((results) {
-        for (var row in results) {
-          setState(() {
-            roomID = row[0].toString();
-          });
-        }
-      });
+  Future<void> _getRoomID() async {
+    await db.getConnection().then((conn) async {
+      var res = await conn.query('select id_room from object where id_object = $scanResult;');
+      for (var row in res) {
+        setState(() {
+          roomID = row[0];
+        });
+      }
+      await conn.close();
     });
   }
 
   void _countObjects() {
-    //count variable, check for limit and return back to the process inventory page
-    int counterUpdate = widget.counter;
-    counterUpdate++;
+    counterUpdate = widget.counter;
+    setState(() {
+      counterUpdate++;
+    });
     widget.updateCounter(counterUpdate);
     if (counterUpdate == numberOfObjects) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => FinishInventoryPage(room: widget.room,)));
+            builder: (context) => FinishInventoryPage(room: widget.room)
+        ));
       });
     }
   }
@@ -112,7 +121,6 @@ class _ScanInventoryPageState extends State<ScanInventoryPage> {
   @override
   void initState() {
     super.initState();
-    //widget.updateCounter(widget.counter);
     _getRoomObjects();
     scanQR();
   }

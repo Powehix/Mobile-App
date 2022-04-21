@@ -17,11 +17,12 @@ class _ErrorUnknownPageState extends State<ErrorUnknownPage> {
           children: const [
             Text(
               'Error!',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
             ),
+            SizedBox(height: 8),
             Text(
               'Object not found.',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.white),
             ),
         ]),
       )

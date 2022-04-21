@@ -39,7 +39,7 @@ class _StartInventoryPageState extends State<StartInventoryPage> {
               )),
               backgroundColor: const Color(0xFF404ccf),
               textColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 72, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 92, vertical: 16),
           )
         ],
       ),
