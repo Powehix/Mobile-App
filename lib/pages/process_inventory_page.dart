@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mobile_app/main.dart';
-import 'package:mobile_app/pages/qr_scan_page.dart';
+import 'package:mobile_app/pages/scan_inventory_page.dart';
 
 import '../mysql.dart';
 import '../widgets/button_widget.dart';
 
 class ProcessInventoryPage extends StatefulWidget {
-  final String result;
+  final int room;
   final int counter;
-  const ProcessInventoryPage({Key? key, required this.result, required this.counter}) : super(key: key);
+  const ProcessInventoryPage({Key? key, required this.room, required this.counter}) : super(key: key);
 
   @override
   _ProcessInventoryPageState createState() => _ProcessInventoryPageState();
@@ -21,7 +21,7 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
 
   void _getRoom() {
     db.getConnection().then((conn) {
-      String sql = 'select number_of_objects, location_of_room from room where id_room = ${widget.result};';
+      String sql = 'select number_of_objects, location_of_room from room where id_room = ${widget.room};';
       conn.query(sql).then((results) {
         for (var row in results) {
           setState(() {
@@ -39,7 +39,7 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
 
     db.getConnection().then((conn) async {
       var res = await conn.query('insert into inventory (date, result, id_room) values (?, ?, ?)',
-          [date, 'Unsuccessful', widget.result]);
+          [date, 'Unsuccessful', widget.room]);
       print('Inserted row id_inventory=${res.insertId}');
       await conn.close();
     });
@@ -66,20 +66,24 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
             'Room: $locationOfRoom',
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500, color: Colors.black),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 4),
           Text(
             '${widget.counter}/$numberOfObjects',
-            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF2899f3)),
+            style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Color(0xFF7480fd)),
           ),
           const SizedBox(height: 56),
           ButtonWidget(
-            text: 'Continue scan',
+            text: 'Scan QR codes',
             onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const QRScanPage(),
+              builder: (BuildContext context) => ScanInventoryPage(room: widget.room, counter: widget.counter, updateCounter: (newCounter) {
+                setState(() {
+                  newCounter = widget.counter;
+                });
+              }),
             )),
             backgroundColor: const Color(0xFF404ccf),
             textColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 72, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 16),
           ),
           const SizedBox(height: 16),
           ButtonWidget(
@@ -101,9 +105,9 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
                   ],
                 )
             ),
-            backgroundColor: const Color(0xFF2899f3),
+            backgroundColor: const Color(0xFF7480fd),
             textColor: Colors.white,
-            padding: const EdgeInsets.symmetric(horizontal: 72, vertical: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 51, vertical: 16),
           ),
         ],
       ),

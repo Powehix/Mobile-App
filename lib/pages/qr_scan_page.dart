@@ -6,7 +6,7 @@ import 'package:mobile_app/pages/qr_result_page.dart';
 import 'package:vibration/vibration.dart';
 
 import '../main.dart';
-import 'error_page.dart';
+import 'error_unknown_page.dart';
 
 class QRScanPage extends StatefulWidget {
   const QRScanPage({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class _QRScanPageState extends State<QRScanPage> {
     if (int.tryParse(scanResult) == null) {
       SchedulerBinding.instance?.addPostFrameCallback((_) {
         Navigator.push(context, MaterialPageRoute(
-            builder: (context) => const ErrorPage()));
+            builder: (context) => const ErrorUnknownPage()));
       });
     } else if (scanResult == '-1') {
       Navigator.push(context, MaterialPageRoute(

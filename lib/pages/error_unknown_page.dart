@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/main.dart';
-import 'package:mobile_app/widgets/button_widget.dart';
 
-class ErrorPage extends StatefulWidget {
-  const ErrorPage({Key? key}) : super(key: key);
+class ErrorUnknownPage extends StatefulWidget {
+  const ErrorUnknownPage({Key? key}) : super(key: key);
 
   @override
-  _ErrorPageState createState() => _ErrorPageState();
+  _ErrorUnknownPageState createState() => _ErrorUnknownPageState();
 }
 
-class _ErrorPageState extends State<ErrorPage> {
+class _ErrorUnknownPageState extends State<ErrorUnknownPage> {
   @override
   Widget build(BuildContext context) => Scaffold(
       backgroundColor: const Color(0xFF404ccf),
@@ -18,7 +16,11 @@ class _ErrorPageState extends State<ErrorPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             Text(
-              'Error! Object not found.',
+              'Error!',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
+            ),
+            Text(
+              'Object not found.',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
             ),
         ]),
