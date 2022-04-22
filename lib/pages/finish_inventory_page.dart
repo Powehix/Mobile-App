@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobile_app/mysql.dart';
 
 import '../main.dart';
 import '../widgets/button_widget.dart';
@@ -12,10 +13,24 @@ class FinishInventoryPage extends StatefulWidget {
 }
 
 class _FinishInventoryPageState extends State<FinishInventoryPage> {
+  var db = MySQL();
+
+  void _saveInventory() {
+    DateTime now = DateTime.now();
+    DateTime date = DateTime.utc(now.year, now.month, now.day);
+
+    db.getConnection().then((conn) async {
+      var res = await conn.query('insert into inventory (date, result, id_room) values (?, ?, ?)',
+          [date, 'Successful', widget.room]);
+      print('Inserted row id_inventory=${res.insertId}');
+      await conn.close();
+    });
+  }
 
   @override
   void initState() {
     super.initState();
+    _saveInventory();
   }
 
   @override
