@@ -8,7 +8,8 @@ import '../widgets/button_widget.dart';
 class ProcessInventoryPage extends StatefulWidget {
   final int room;
   final int counter;
-  const ProcessInventoryPage({Key? key, required this.room, required this.counter}) : super(key: key);
+  final List<String> objects;
+  const ProcessInventoryPage({Key? key, required this.room, required this.counter, required this.objects}) : super(key: key);
 
   @override
   _ProcessInventoryPageState createState() => _ProcessInventoryPageState();
@@ -89,7 +90,9 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
                 setState(() {
                   newCounter = widget.counter;
                 });
-              }),
+              },
+                objects: widget.objects,
+              ),
             )),
             backgroundColor: const Color(0xFF404ccf),
             textColor: Colors.white,

@@ -16,6 +16,7 @@ class _StartInventoryPageState extends State<StartInventoryPage> {
   var roomID = 'Unknown';
   var rooms = <String>[];
   String dropdownValue = 'Unknown';
+  List<String> objects = [];
 
   Future<void> _getRooms() async {
     await db.getConnection().then((conn) async {
@@ -94,7 +95,7 @@ class _StartInventoryPageState extends State<StartInventoryPage> {
           ButtonWidget(
               text: 'Continue',
               onClicked: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => ProcessInventoryPage(room: int.parse(roomID), counter: 0),
+                builder: (BuildContext context) => ProcessInventoryPage(room: int.parse(roomID), counter: 0, objects: objects),
               )),
               backgroundColor: const Color(0xFF404ccf),
               textColor: Colors.white,

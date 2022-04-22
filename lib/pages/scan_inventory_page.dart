@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:mobile_app/pages/error_duplicate_page.dart';
 import 'package:mobile_app/pages/error_incorrect_page.dart';
 import 'package:mobile_app/pages/finish_inventory_page.dart';
 import 'package:mobile_app/pages/process_inventory_page.dart';
@@ -16,7 +17,8 @@ class ScanInventoryPage extends StatefulWidget {
   final int room;
   final int counter;
   final Function(int counter) updateCounter;
-  const ScanInventoryPage({Key? key, required this.room, required this.counter, required this.updateCounter}) : super(key: key);
+  final List<String> objects;
+  const ScanInventoryPage({Key? key, required this.room, required this.counter, required this.updateCounter, required this.objects}) : super(key: key);
 
   @override
   _ScanInventoryPageState createState() => _ScanInventoryPageState();
@@ -25,11 +27,12 @@ class ScanInventoryPage extends StatefulWidget {
 class _ScanInventoryPageState extends State<ScanInventoryPage> {
   late String scanResult;
   var db = MySQL();
+  var roomID = 0;
+  //var objects = <String>[];
   late int numberOfObjects;
   late int counterUpdate;
   //String scanResult = 'Unknown';
   //late int roomID;
-  var roomID = 0;
 
   Future<void> scanQR() async {
     String scanQR;
@@ -61,15 +64,22 @@ class _ScanInventoryPageState extends State<ScanInventoryPage> {
       });
     } else if (scanResult == '-1') {
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => ProcessInventoryPage(room: widget.room, counter: widget.counter)
+          builder: (context) => ProcessInventoryPage(room: widget.room, counter: widget.counter, objects: widget.objects)
       ));
     } else {
       await _getRoomID();
       if (roomID == widget.room) {
-        _countObjects();
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => ProcessInventoryPage(room: widget.room, counter: counterUpdate)
-        ));
+        if (widget.objects.contains(scanResult)) {
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) => const ErrorDuplicatePage()
+          ));
+        } else {
+          _countObjects();
+          widget.objects.add(scanResult);
+          Navigator.push(context, MaterialPageRoute(
+              builder: (context) => ProcessInventoryPage(room: widget.room, counter: counterUpdate, objects: widget.objects)
+          ));
+        }
       } else {
         Navigator.push(context, MaterialPageRoute(
             builder: (context) => const ErrorIncorrectPage()

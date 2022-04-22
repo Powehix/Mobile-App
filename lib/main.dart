@@ -60,14 +60,14 @@ class _MainPageState extends State<MainPage> {
           ),
           const Text(
             'Welcome',
-            style: TextStyle(fontSize: 25, color: Colors.black, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           const SizedBox(
             width: 300,
               child: Text(
                 'This is an inventory management application. Please select what you want to do.',
-                style: TextStyle(fontSize: 15, color: Color(0xFF878787), fontWeight: FontWeight.w600),
+                style: TextStyle(fontSize: 14, color: Color(0xFF878787), fontWeight: FontWeight.w500),
                 textAlign: TextAlign.center,
               ),
           ),
