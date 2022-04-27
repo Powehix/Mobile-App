@@ -19,6 +19,8 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
   var db = MySQL();
   var numberOfObjects = 'Unknown';
   var locationOfRoom = 'Unknown';
+  var objectsAll = <String>[];
+  var objectsMissed = <String>[];
 
   void _getRoom() {
     db.getConnection().then((conn) {
@@ -34,14 +36,27 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
     });
   }
 
+  void _getObjectsMissed() async {
+    await db.getConnection().then((conn) async {
+      var res = await conn.query('select id_object from object where id_room = ${widget.room};');
+      for (var row in res) {
+        setState(() {
+          objectsAll.add(row[0].toString());
+        });
+      }
+      objectsMissed = objectsAll.toSet().difference(widget.objects.toSet()).toList();
+      await conn.close();
+    });
+
+  }
+
   void _stopInventory() {
     DateTime now = DateTime.now();
     DateTime date = DateTime.utc(now.year, now.month, now.day);
 
     db.getConnection().then((conn) async {
-      var res = await conn.query('insert into inventory (date, result, id_room) values (?, ?, ?)',
-          [date, 'Unsuccessful', widget.room]);
-      print('Inserted row id_inventory=${res.insertId}');
+      await conn.query('insert into inventory (date, result, id_room) values (?, ?, ?)',
+          [date, 'Objects with ID $objectsMissed are missed', widget.room]);
       await conn.close();
     });
 
@@ -54,6 +69,7 @@ class _ProcessInventoryPageState extends State<ProcessInventoryPage> {
   void initState() {
     super.initState();
     _getRoom();
+    _getObjectsMissed();
   }
 
   @override

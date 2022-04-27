@@ -93,9 +93,9 @@ class _MainPageState extends State<MainPage> {
           ),
           const SizedBox(height: 12),
           const SizedBox(
-            width: 300,
+            width: 250,
             child: Text(
-              'Please note that the application requires a connection to a local server.',
+              'Please note that the application requires internet access.',
               style: TextStyle(fontSize: 12, color: Color(0xFF878787), fontWeight: FontWeight.w600),
               textAlign: TextAlign.center,
             ),
